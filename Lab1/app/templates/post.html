@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="mb-0 title">{{ post.title }}</h1>
+    <h5 class="mb-3 subtitle text-muted">
+        {{post.author}}, {{post.date.strftime('%d.%m.%Y')}}
+    </h2>
+    
+    <img class="img-fluid mb-4" src = "{{ url_for('static', filename='images/' + post.image_id) }}">
+
+    <p> {{post.text}} </p>
+
+    
+    <form class="mb-5 border rounded">
+        <div class="text-dark bg-light border-bottom">
+            <h4 class="p-3">Оставьте комментарий</h4>
+        </div>
+    
+        <div class="p-3">
+            <textarea class="form-control mb-3" rows="3"></textarea>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </div>
+    </form>
+    
+
+    <div class="d-flex flex-column">
+        {% for comment in post.comments %}
+            <div class="d-flex mb-3">
+                <div class="flex-shrink-0">
+                    <img src="{{ url_for('static', filename='images/avatar.svg') }}" class="rounded-circle border border-3 border-dark" style="width: 50px; height: 50px;">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5> {{comment.author}} </h5>
+                    <p>{{comment.text}}</p>
+
+                    {% if comment.replies %}
+                        <div class="d-flex mt-4 flex-column">
+                            {% for reply in comment.replies %}
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ url_for('static', filename='images/avatar.svg') }}" class="rounded-circle border border-3 border-dark" style="width: 50px; height: 50px;">                                      
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5> {{reply.author}} </h5>
+                                        <p> {{reply.text}} </p>
+                                    </div>
+                                </div>    
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
