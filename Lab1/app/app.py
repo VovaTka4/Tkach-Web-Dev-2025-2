@@ -1,5 +1,5 @@
 import random
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 from faker import Faker
 
 fake = Faker()
@@ -34,16 +34,22 @@ def generate_post(i):
 
 posts_list = sorted([generate_post(i) for i in range(5)], key=lambda p: p['date'], reverse=True)
 
+def get_posts():
+    return posts_list   
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/posts')
 def posts():
-    return render_template('posts.html', title='Посты', posts=posts_list)
+    return render_template('posts.html', title='Посты', posts=get_posts())
 
 @app.route('/posts/<int:index>')
 def post(index):
+    if index < 0 or index >= len(posts_list):
+        abort(404)
+        
     p = posts_list[index]
     return render_template('post.html', title=p['title'], post=p)
 
