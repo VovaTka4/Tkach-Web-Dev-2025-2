@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="my-5">Вот мой куки:</h3>
+<ul>
+    <li> MY_COOKIE = {{ cookies.get('MY_COOKIE') }} </li>
+</ul>
+{% endblock %}

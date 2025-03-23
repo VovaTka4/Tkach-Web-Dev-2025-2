@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Параметры URL:</h3>
+<ul>
+    {% if urlparams %}
+        {% for key, value in urlparams.lists() %}
+            <li>Ключ: {{ key }} — Значение: {{ value | join(', ') }}</li>
+        {% endfor %}
+    {% else %}
+        <li>Нет переданных параметров</li>
+    {% endif %}
+</ul>
+{% endblock %}

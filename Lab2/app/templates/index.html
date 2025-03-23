@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form class="mb-5 border rounded" method="POST">
+    <div class="text-dark bg-light border-bottom">
+        <h4 class="p-3">Введите номер телефна</h4>
+    </div>
+
+    <div class="p-3">
+        <input type="text" id="phone" name="phone" class="form-control mb-3 {% if error %}is-invalid{% endif %}" value="{{ request.form.get('phone', '') }}">
+       
+        {% if error %}
+            <div class="invalid-feedback">
+                {{ error }}
+            </div>
+        {% endif %} 
+
+        {% if phone and not error %}
+            
+            <p>
+                Отформатированный телефон: {{phone}}
+            </p>
+
+
+            <p>
+                Форма вывод:
+            </p>
+
+            <ul>
+
+                {% for key, value in form.items() %}
+        
+                    <li> {{key}} ---- {{value}} </li>
+        
+                {% endfor %}
+        
+            </ul>
+
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Проверить</button>
+    </div>
+    
+</form>
+
+{% endblock %}

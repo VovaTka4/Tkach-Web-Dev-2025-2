@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Заголовки:</h3>
+<ul>
+    {% if headers %}
+        {% for key, value in headers.items() %}
+            <li>Заголовок: {{ key }} — Значение: {{ value | join('') }}</li>
+        {% endfor %}
+    {% else %}
+        <li>Нет заголовков</li>
+    {% endif %}
+</ul>
+{% endblock %}
