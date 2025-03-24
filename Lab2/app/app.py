@@ -19,15 +19,18 @@ def index():
         
         phone_parsed = re.sub(r'[\- ().]','',phone)
     
-        if len(phone_parsed) == 12 and phone_parsed.startswith(('+7')):
-            phone_parsed = phone_parsed[2:]
-            if re.search(r'[^\d]', phone_parsed):
-                error = "Недопустимый ввод. В номере телефона встречаются недопустимые символы."
-                phone= ""
+        if phone_parsed.startswith(('+7')):
+            if len(phone_parsed) == 12:
+                phone_parsed = phone_parsed[2:]
+                if re.search(r'[^\d]', phone_parsed):
+                    error = "Недопустимый ввод. В номере телефона встречаются недопустимые символы."
+                    phone = ""
+                else:
+                    phone = f"8-{phone_parsed[:3]}-{phone_parsed[3:5]}-{phone_parsed[5:7]}-{phone_parsed[7:]}"
+                    error = ""
             else:
-                phone = f"8-{phone_parsed[:3]}-{phone_parsed[3:5]}-{phone_parsed[5:7]}-{phone_parsed[7:]}"
-                error = ""
-                
+                error = "Недопустимый ввод. Неверное количество цифр."
+                phone = ""   
         elif len(phone_parsed) == 11 and phone_parsed.startswith('8'):
             phone_parsed = phone_parsed[1:]
             if re.search(r'[^\d]', phone_parsed):
