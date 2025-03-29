@@ -68,10 +68,10 @@ def visitscounter():
     if current_user.is_authenticated:
         if session.get(current_user.login):
             session[current_user.login] += 1
-            session['counter'] = 1 if session.get('coutner') else session['counter'] + 1
+            session['counter'] = 1 if session.get('counter') else session['counter'] + 1
         else:
             session[current_user.login] = 1
-            session['counter'] = 1 if session.get('coutner') else session['counter'] + 1
+            session['counter'] = 1 if session.get('counter') else session['counter'] + 1
     else:
         if session.get('counter'):
             session['counter'] += 1
