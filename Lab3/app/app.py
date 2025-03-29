@@ -43,6 +43,8 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    next_page = request.args.get('next')
+    
     if request.method == 'POST':
         login = request.form.get('username')
         password = request.form.get('password')
@@ -54,7 +56,7 @@ def login():
                     login_user(user, remember = check)
                     flash('Вы успешно аутентифицированы!', 'success')
                     session['greeting'] = "Добро пожаловать, " + login + "!"
-                    return redirect(url_for('index'))
+                    return redirect(next_page or url_for('index'))
             return render_template('login.html', error="Введены неверные данные!")
         return render_template('login.html', error="Необходимо заполнить все поля!")
     return render_template('login.html')

@@ -109,8 +109,10 @@ def test_remember_me_token_setted(client):
     assert 'Вы успешно аутентифицированы!' in response.get_data(as_text=True)
     # print("ЗАГОЛОВКИИИИ::::::", response.headers)
     
+    print("SET COOKIE:::::::::::", response.headers.getlist('Set-Cookie'))
+    
     assert response.request.cookies.get('remember_token', None)
-    # print("КУКИЧ::::::::::::::::: ", response.request.cookies.get('remember_token', None))
+    # print("КУКИ::::::::::::::::: ", response.request.cookies.get('remember_token', None))
     
 def test_remember_me_token_not_setted(client):
     response = client.post('/login', data={
@@ -127,11 +129,14 @@ def test_unauthorized_user_secret_redirect_after_login(client):
     response = client.get('/secretpage', follow_redirects=True)
     assert 'next=/secretpage' in response.request.url
 
-    response = client.post('/login', data={
+    # print("ВОТ ЛИНК>>>>>>>>>>>>>>>", response.request.url)
+
+    response2 = client.post(response.request.url, data={
         'username': 'user',
         'password': 'qwerty'
     }, follow_redirects=True)
     
-    assert response.request.path == '/secretpage'
-    page_content = response.get_data(as_text=True)
-    assert 'Самый страшный секрет - это читать далее...' in page_content
+    assert response2.request.path == '/secretpage'
+    page_content = response2.get_data(as_text=True)
+    # print("СОСТАВ: ", page_content)
+    assert 'Самый страшный секрет - это <u>читать далее...</u>' in page_content
