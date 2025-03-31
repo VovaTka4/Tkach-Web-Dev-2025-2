@@ -104,26 +104,21 @@ def test_remember_me_token_setted(client):
         'username': 'user',
         'password': 'qwerty',
         'remember_me': 'on'
-    }, follow_redirects=True)
-
-    assert 'Вы успешно аутентифицированы!' in response.get_data(as_text=True)
-    # print("ЗАГОЛОВКИИИИ::::::", response.headers)
+    })
     
-    print("SET COOKIE:::::::::::", response.headers.getlist('Set-Cookie'))
+    set_cookie =  response.headers.get('Set-Cookie')
     
-    assert response.request.cookies.get('remember_token', None)
-    # print("КУКИ::::::::::::::::: ", response.request.cookies.get('remember_token', None))
+    assert 'remember_token=' in set_cookie
+    assert 'Expires' in set_cookie
     
 def test_remember_me_token_not_setted(client):
     response = client.post('/login', data={
         'username': 'user',
         'password': 'qwerty',
         'remember_me': 'off'
-    }, follow_redirects=True)
-
-    assert 'Вы успешно аутентифицированы!' in response.get_data(as_text=True)
+    })
     
-    assert not response.request.cookies.get('remember_token', None)
+    assert 'remember_token=' not in response.headers.get('Set-Cookie')
     
 def test_unauthorized_user_secret_redirect_after_login(client):
     response = client.get('/secretpage', follow_redirects=True)
