@@ -1,12 +1,28 @@
 import random
 import re
 from flask import Flask, render_template, abort, request, make_response
-from faker import Faker
-
-fake = Faker()
 
 app = Flask(__name__)
 application = app
+
+def phone_validator(phone):
+    
+    phone_parsed = re.sub(r'[\- ().]','',phone)
+    
+    if phone_parsed.startswith(('+7')) and len(phone_parsed) == 12:
+        phone_parsed = phone_parsed[2:]
+    elif len(phone_parsed) == 11 and phone_parsed.startswith('8'):
+        phone_parsed = phone_parsed[1:]
+    elif len(phone_parsed) == 10:
+        pass
+    else:  
+        return "", "Недопустимый ввод. Неверное количество цифр."
+    
+    if re.search(r'[^\d]', phone_parsed):
+        return "", "Недопустимый ввод. В номере телефона встречаются недопустимые символы." 
+    
+    return f"8-{phone_parsed[:3]}-{phone_parsed[3:6]}-{phone_parsed[6:8]}-{phone_parsed[8:]}", ""
+    
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -17,40 +33,7 @@ def index():
     if request.method == 'POST':
         phone = request.form['phone']
         
-        phone_parsed = re.sub(r'[\- ().]','',phone)
-    
-        if phone_parsed.startswith(('+7')):
-            if len(phone_parsed) == 12:
-                phone_parsed = phone_parsed[2:]
-                if re.search(r'[^\d]', phone_parsed):
-                    error = "Недопустимый ввод. В номере телефона встречаются недопустимые символы."
-                    phone = ""
-                else:
-                    phone = f"8-{phone_parsed[:3]}-{phone_parsed[3:5]}-{phone_parsed[5:7]}-{phone_parsed[7:]}"
-                    error = ""
-            else:
-                error = "Недопустимый ввод. Неверное количество цифр."
-                phone = ""   
-        elif len(phone_parsed) == 11 and phone_parsed.startswith('8'):
-            phone_parsed = phone_parsed[1:]
-            if re.search(r'[^\d]', phone_parsed):
-                error = "Недопустимый ввод. В номере телефона встречаются недопустимые символы."
-                phone= ""
-            else:
-                phone = f"8-{phone_parsed[:3]}-{phone_parsed[3:5]}-{phone_parsed[5:7]}-{phone_parsed[7:]}"
-                error = ""
-            
-        elif len(phone_parsed) == 10:
-            if re.search(r'[^\d]', phone_parsed):
-                error = "Недопустимый ввод. В номере телефона встречаются недопустимые символы."
-                phone = ""
-            else:
-                phone = f"8-{phone_parsed[:3]}-{phone_parsed[3:6]}-{phone_parsed[6:8]}-{phone_parsed[8:]}"
-                error = ""
-
-        else:  
-            error = "Недопустимый ввод. Неверное количество цифр."
-            phone = ""
+        phone, error = phone_validator(phone)
     
     return render_template('index.html', error=error, phone=phone, form = request.form)
 
