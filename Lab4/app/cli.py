@@ -1,6 +1,8 @@
 import click
 from flask import current_app
-from app import db
+from .db import DBConnector
+
+db = DBConnector()
 
 @click.command('init-db')
 def init_db_command():
