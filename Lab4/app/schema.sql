@@ -1,5 +1,5 @@
-DROP TABLE roles;
-DROP TABLE users;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE roles (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -19,6 +19,6 @@ CREATE TABLE users (
     FOREIGN KEY (role_id) REFERENCES roles(id)
 ) ENGINE INNODB;
 
-INSERT INTO roles (name) VALUES ('admin')
-INSERT INTO roles (name) VALUES ('another_role')
-INSERT INTO users (username, first_name, last_name, password_hash, role_id) VALUES ('admin', 'adminFN', 'adminLN', SHA2('qwerty', 256), 1)
+-- INSERT INTO roles (name) VALUES ('admin')
+-- INSERT INTO roles (name) VALUES ('another_role')
+-- INSERT INTO users (username, first_name, last_name, password_hash, role_id) VALUES ('admin', 'adminFN', 'adminLN', SHA2('qwerty', 256), 1)
