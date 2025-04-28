@@ -4,7 +4,9 @@ from collections import namedtuple
 import logging
 import pytest
 import mysql.connector
+from flask import template_rendered
 from app import create_app 
+from contextlib import contextmanager
 from app.db import DBConnector
 from app.repositories.role_repository import RoleRepository
 from app.repositories.user_repository import UserRepository
@@ -178,6 +180,18 @@ def example_users(db_connector):
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+@pytest.fixture
+@contextmanager
+def captured_templates(app):
+    recorded = []
+    def record(sender, template, context, **extra):
+        recorded.append((template, context))
+    template_rendered.connect(record, app)
+    try:
+        yield recorded
+    finally:
+        template_rendered.disconnect(record, app)
 
 # для запуска: находимся в Lab4: python -m pytest -p no:warnings --log-cli-level=INFO
 # ключи -p и --log-cli-level=INFO - не обязательно
