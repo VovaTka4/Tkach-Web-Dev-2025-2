@@ -89,6 +89,8 @@ def existing_role(db_connector):
         cursor.execute(query, (role.id,))
         connection.commit()
         
+    connection.close()
+        
 @pytest.fixture
 def nonexisting_role_id():
     return 1
@@ -116,6 +118,8 @@ def example_roles(db_connector):
         query = f"DELETE FROM roles WHERE id IN ({roles_ids});"
         cursor.execute(query)
         connection.commit()
+    
+    connection.close()
         
 @pytest.fixture
 def existing_user(db_connector):
@@ -142,6 +146,8 @@ def existing_user(db_connector):
         query = 'DELETE FROM users WHERE id=%s;'
         cursor.execute(query, (user.id,))
         connection.commit()
+        
+    connection.close()
         
 @pytest.fixture
 def nonexisting_user_id():
@@ -174,6 +180,9 @@ def example_users(db_connector):
         query = f"DELETE FROM users WHERE id IN ({users_ids});"
         cursor.execute(query)
         connection.commit()
+
+    connection.close()
+
         
 @pytest.fixture
 def client(app):
