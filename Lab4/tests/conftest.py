@@ -40,8 +40,8 @@ def setup_db(app):
 def teardown_db(app):
     connection = get_connection(app)
     cursor = connection.cursor()
-    cursor.execute("DROP TABLE IF EXISTS roles;") 
-    cursor.execute("DROP TABLE IF EXISTS users;")
+    cursor.execute("DROP TABLE IF EXISTS users;") 
+    cursor.execute("DROP TABLE IF EXISTS roles;")
     connection.commit()
     cursor.close()
     connection.close()
