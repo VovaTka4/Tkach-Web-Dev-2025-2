@@ -30,7 +30,7 @@ def setup_db(app):
     with app.open_resource('schema.sql') as f:
         schema_query = f.read().decode('utf8')
     connection = get_connection(app)
-    query = '\n'.join([f"USE {app.config['MYSQL_DATABASE']}", schema_query])
+    query = '\n'.join([f"USE {app.config['MYSQL_DATABASE']};", schema_query])
     with connection.cursor(named_tuple = True) as cursor:
         for _ in cursor.execute(query, multi=True):
             pass
