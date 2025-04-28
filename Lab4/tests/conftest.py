@@ -126,10 +126,10 @@ def existing_user(db_connector):
     
     connection = db_connector.connect()
     with connection.cursor() as cursor:
-        query = 'INSERT INTO roles(id, name) VALUES (%s, %s);'
-        cursor.execute(query, (1, 'admin'))
         query = 'INSERT INTO users(id, username, first_name, last_name, password_hash, role_id) VALUES (%s, %s, %s, %s, SHA2(%s, 256), %s);'
         cursor.execute(query, data)
+        query = 'INSERT INTO roles(id, name) VALUES (%s, %s);'
+        cursor.execute(query, (1, 'admin'))
         connection.commit()
         
     #возвращаем роль
@@ -137,10 +137,10 @@ def existing_user(db_connector):
     
     #очищаем после теста
     with connection.cursor() as cursor:
-        query = 'DELETE FROM roles WHERE id=%s;'
-        cursor.execute(query, (1,))
         query = 'DELETE FROM users WHERE id=%s;'
         cursor.execute(query, (user.id,))
+        query = 'DELETE FROM roles WHERE id=%s;'
+        cursor.execute(query, (1,))
         connection.commit()
                 
 @pytest.fixture
@@ -168,11 +168,11 @@ def example_users(db_connector):
     
     #clean up, очищаем после теста
     with connection.cursor() as cursor:
-        query = 'DELETE FROM roles WHERE id=%s;'
-        cursor.execute(query, (1,))
         users_ids = ', '.join([str(role.id) for role in users])
         query = f"DELETE FROM users WHERE id IN ({users_ids});"
         cursor.execute(query)
+        query = 'DELETE FROM roles WHERE id=%s;'
+        cursor.execute(query, (1,))
         connection.commit()
         
 @pytest.fixture
