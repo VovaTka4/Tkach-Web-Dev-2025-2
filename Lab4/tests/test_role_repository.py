@@ -9,7 +9,7 @@ def test_get_by_id_with_nonexisting_role(role_repository, nonexisting_role_id):
     role = role_repository.get_by_id(nonexisting_role_id)
     assert role is None
 
-def test_all_with_nonempty_db(role_repository, example_roles):
+def test_all_roles_with_nonempty_db(role_repository, example_roles):
     roles = role_repository.all()
     assert len(roles) == len(example_roles)
     for loaded_role, example_role in zip(roles, example_roles):

@@ -9,7 +9,7 @@ def test_get_by_id_with_nonexisting_user(user_repository, nonexisting_user_id):
     user = user_repository.get_by_id(nonexisting_user_id)
     assert user is None
 
-def test_all_with_nonempty_db(user_repository, example_users):
+def test_all_users_with_nonempty_db(user_repository, example_users):
     users = user_repository.all()
     assert len(users) == len(example_users)
     for loaded_user, example_user in zip(users, example_users):
