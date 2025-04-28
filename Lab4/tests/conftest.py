@@ -126,10 +126,10 @@ def existing_user(db_connector):
     
     connection = db_connector.connect()
     with connection.cursor() as cursor:
-        query = 'INSERT INTO users(id, username, first_name, last_name, password_hash, role_id) VALUES (%s, %s, %s, %s, SHA2(%s, 256), %s);'
-        cursor.execute(query, data)
         query = 'INSERT INTO roles(id, name) VALUES (%s, %s);'
         cursor.execute(query, (1, 'admin'))
+        query = 'INSERT INTO users(id, username, first_name, last_name, password_hash, role_id) VALUES (%s, %s, %s, %s, SHA2(%s, 256), %s);'
+        cursor.execute(query, data)
         connection.commit()
         
     #возвращаем роль
