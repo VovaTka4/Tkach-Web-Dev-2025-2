@@ -150,7 +150,7 @@ def nonexisting_user_id():
 @pytest.fixture
 def example_users(db_connector):
     #arrange, задача данных и запись в бд
-    data = [(1, 'admin', 'adminFN', 'adminLN', 'qwerty', 1), (1, 'test', 'testFN', 'testLN', 'qwerty', 1)]
+    data = [(1, 'admin', 'adminFN', 'adminLN', 'qwerty', 1), (2, 'test', 'testFN', 'testLN', 'qwerty', 1)]
     row_class = namedtuple('Row', ['id', 'username', 'first_name', 'last_name', 'password_hash', 'role_id'])
     users = [row_class(*row_data) for row_data in data]
     
