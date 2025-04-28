@@ -118,6 +118,64 @@ def example_roles(db_connector):
         connection.commit()
         
 @pytest.fixture
+def existing_user(db_connector):
+    #arrange, задача данных и запись в бд
+    data = (1, 'admin', 'adminFN', 'adminLN', 'qwerty', 1)
+    row_class = namedtuple('Row', ['id', 'username', 'first_name', 'last_name', 'password_hash', 'role_id'])
+    user = row_class(*data)
+    
+    connection = db_connector.connect()
+    with connection.cursor() as cursor:
+        query = 'INSERT INTO roles(id, name) VALUES (%s, %s);'
+        cursor.execute(query, (1, 'admin'))
+        query = 'INSERT INTO users(id, username, first_name, last_name, password_hash, role_id) VALUES (%s, %s, %s, %s, SHA2(%s, 256), %s);'
+        cursor.execute(query, data)
+        connection.commit()
+        
+    #возвращаем роль
+    yield user
+    
+    #очищаем после теста
+    with connection.cursor() as cursor:
+        query = 'DELETE FROM roles WHERE id=%s;'
+        cursor.execute(query, (1,))
+        query = 'DELETE FROM users WHERE id=%s;'
+        cursor.execute(query, (user.id,))
+        connection.commit()
+        
+@pytest.fixture
+def nonexisting_user_id():
+    return 1
+
+@pytest.fixture
+def example_users(db_connector):
+    #arrange, задача данных и запись в бд
+    data = [(1, 'admin', 'adminFN', 'adminLN', 'qwerty', 1), (1, 'test', 'testFN', 'testLN', 'qwerty', 1)]
+    row_class = namedtuple('Row', ['id', 'username', 'first_name', 'last_name', 'password_hash', 'role_id'])
+    users = [row_class(*row_data) for row_data in data]
+    
+    connection = db_connector.connect()
+    with connection.cursor() as cursor:
+        query = 'INSERT INTO roles(id, name) VALUES (%s, %s);'
+        cursor.execute(query, (1, 'admin'))
+        placeholders = ', '.join(['(%s, %s, %s, %s, SHA2(%s, 256), %s)' for _ in range(len(data))])
+        query = f"INSERT INTO users(id, username, first_name, last_name, password_hash, role_id) VALUES {placeholders};"
+        cursor.execute(query, reduce(lambda seq, x: seq + list(x), data, []))
+        connection.commit()
+        
+    #возвращаем роль
+    yield users
+    
+    #clean up, очищаем после теста
+    with connection.cursor() as cursor:
+        query = 'DELETE FROM roles WHERE id=%s;'
+        cursor.execute(query, (1,))
+        users_ids = ', '.join([str(role.id) for role in users])
+        query = f"DELETE FROM users WHERE id IN ({users_ids});"
+        cursor.execute(query)
+        connection.commit()
+        
+@pytest.fixture
 def client(app):
     return app.test_client()
 
