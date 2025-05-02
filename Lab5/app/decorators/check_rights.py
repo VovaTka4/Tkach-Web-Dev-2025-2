@@ -11,11 +11,11 @@ role_repository = RoleRepository(db)
 def check_rights(required_permission):
     def decorator(func):
         @wraps(func)
-        def wrapper(*args, **kwargs):            
+        def wrapper(*args, **kwargs):      
+            logging.warning(f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> { dir(current_user) }")      
             user_role = role_repository.get_by_id(current_user.role_id).name
             g.has_permission = (user_role == required_permission)
             user_id = kwargs.get("user_id")
-            logging.warning(f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> { dir(current_user) }")
             if (not g.has_permission) or (user_role != required_permission and current_user.id == user_id):
                 flash("У вас недостаточно прав для данного действия.", "danger")
                 return redirect(url_for("index"))
