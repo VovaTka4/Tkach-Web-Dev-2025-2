@@ -16,7 +16,7 @@ def check_rights(required_permission):
             
             if not current_user.is_authenticated:
                 flash("Пожалуйста, войдите в систему.", "danger")
-                return redirect(url_for("auth.login"))
+                return redirect(url_for('auth.login'))
               
             user = user_repository.get_by_id(current_user.id) 
             user_role = role_repository.get_by_id(user.role_id).name
@@ -24,7 +24,7 @@ def check_rights(required_permission):
             user_id = kwargs.get("user_id")
             if (not g.has_permission) or (user_role != required_permission and current_user.id == user_id):
                 flash("У вас недостаточно прав для данного действия.", "danger")
-                return redirect(url_for("users.index"))
+                return redirect(url_for('users.index'))
             return func(*args, **kwargs)
         return wrapper
     return decorator
