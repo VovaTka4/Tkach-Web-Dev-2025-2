@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% from 'users/form.html' import user_form %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>username</th>
+                <th>last_name</th>
+                <th>first_name</th>
+                <th>middle_name</th>
+                <th>role</th>
+                <th>created_at</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> {{ user_data.username }} </td>
+                <td> {{ user_data.last_name }} </td>
+                <td> {{ user_data.first_name }} </td>
+                <td> {% if user_data.middle_name %} {{ user_data.middle_name }} {% endif %} </td>
+                <td> {{ user_role }} </td>
+                <td> {{ user_data.created_at }} </td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
