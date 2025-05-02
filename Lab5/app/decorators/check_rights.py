@@ -1,19 +1,20 @@
 from functools import wraps
 from flask import redirect, url_for, flash, g
 from flask_login import current_user
-import logging
 
 from ..repositories.role_repository import RoleRepository
+from ..repositories.user_repository import UserRepository
 from ..db import db
 
 role_repository = RoleRepository(db)
+user_repository = UserRepository(db)
 
 def check_rights(required_permission):
     def decorator(func):
         @wraps(func)
-        def wrapper(*args, **kwargs):      
-            logging.warning(f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> { dir(current_user) }")      
-            user_role = role_repository.get_by_id(current_user.role_id).name
+        def wrapper(*args, **kwargs):     
+            user = user_repository.get_by_id(current_user.id) 
+            user_role = role_repository.get_by_id(user.role_id).name
             g.has_permission = (user_role == required_permission)
             user_id = kwargs.get("user_id")
             if (not g.has_permission) or (user_role != required_permission and current_user.id == user_id):
