@@ -16,7 +16,7 @@ def check_rights(required_permission):
             
             if not current_user.is_authenticated:
                 flash("Пожалуйста, войдите в систему.", "danger")
-                return redirect(url_for('auth.login'))
+                return redirect('/lab5/auth/login')
               
             user = user_repository.get_by_id(current_user.id) 
             user_role = role_repository.get_by_id(user.role_id).name
