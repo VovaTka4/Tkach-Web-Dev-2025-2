@@ -12,7 +12,12 @@ user_repository = UserRepository(db)
 def check_rights(required_permission):
     def decorator(func):
         @wraps(func)
-        def wrapper(*args, **kwargs):     
+        def wrapper(*args, **kwargs):   
+            
+            if not current_user.is_authenticated:
+                flash("Пожалуйста, войдите в систему.", "danger")
+                return redirect(url_for("login"))
+              
             user = user_repository.get_by_id(current_user.id) 
             user_role = role_repository.get_by_id(user.role_id).name
             g.has_permission = (user_role == required_permission)
