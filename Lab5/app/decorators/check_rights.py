@@ -21,6 +21,10 @@ def check_rights(required_permission):
                 if user:
                     user_role = role_repository.get_by_id(user.role_id)
                     g.has_permission = (user_role.name == required_permission)
+                    
+            if not g.has_permission:
+                flash('У вас недостаточно прав для доступа к данной странице!')
+                return redirect(url_for('auth.login'))
 
             return func(*args, **kwargs)
         return wrapper
