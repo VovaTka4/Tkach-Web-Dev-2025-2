@@ -28,7 +28,7 @@ def check_rights(required_permission):
             
             if not has_rights(required_permission):
                 flash('У вас недостаточно прав для доступа к данной странице!', 'warning')
-                return redirect(url_for('users.index'))
+                # return redirect(url_for('users.index'))
             return func(*args, **kwargs)
         return wrapper
     return decorator

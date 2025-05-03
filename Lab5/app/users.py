@@ -15,7 +15,6 @@ role_repository = RoleRepository(db)
 bp = Blueprint('users', __name__, url_prefix='/users')
 
 @bp.route('/')
-@check_rights('admin')
 def index():
     return render_template('users/index.html', users=user_repository.all())
 
