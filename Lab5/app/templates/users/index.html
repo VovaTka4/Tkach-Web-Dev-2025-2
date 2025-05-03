@@ -26,13 +26,13 @@
                 <td> {{ user.role }} </td>
                 <td> {{ user.created_at }} </td>
                 <td>
-                {% if g.is_admin or user.id == current_user.id %}
+                {% if is_admin or user.id == current_user.id %}
                     <a class="btn btn-primary" href="{{ url_for('users.show', user_id=user.id) }}"> View </a>
                 {% endif %}
                 {% if current_user.is_authenticated and (is_admin or user.id == current_user.id) %}
                     <a class="btn btn-primary" href="{{ url_for('users.edit', user_id=user.id) }}"> Edit </a>
                 {% endif %}
-                {% if current_user.is_authenticated and g.is_admin %}
+                {% if current_user.is_authenticated and is_admin %}
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" 
                         data-user-id="{{ user.id }}"> Delete </button>
                 {% endif %}    
@@ -41,7 +41,7 @@
             {% endfor %}
         </tbody>
     </table>
-    {% if current_user.is_authenticated and g.is_admin %}
+    {% if current_user.is_authenticated and is_admin %}
     <a href="{{ url_for('users.new') }}" class="btn btn-primary">Добавить пользователя</a>
     {% endif %}
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
