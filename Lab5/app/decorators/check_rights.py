@@ -21,9 +21,6 @@ def check_rights(required_permission):
                 if user:
                     user_role = role_repository.get_by_id(user.role_id)
                     g.has_permission = (user_role.name == required_permission)
-            
-            if not g.has_permission:
-                return redirect(url_for('users.index'))
 
             return func(*args, **kwargs)
         return wrapper
