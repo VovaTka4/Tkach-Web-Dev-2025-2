@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, session
-from decorators.check_rights import has_rights
+from .decorators.check_rights import has_rights
 from .db import db
 
 def create_app(test_config=None):
