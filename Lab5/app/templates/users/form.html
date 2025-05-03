@@ -76,7 +76,7 @@
             </div>
         {% endif %}
     </div>
-    {% if g.has_permission %}
+    {% if has_rights('admin') %}
         <div class="mb-3">
             <label for="role_id" class="form-label">Роль</label>
             <select name="role_id" id="role_id" class="form-select">

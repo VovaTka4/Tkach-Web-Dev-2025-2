@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from .repositories.user_repository import UserRepository
 from .repositories.role_repository import RoleRepository
-from .decorators.check_rights import check_rights
+from .decorators.check_rights import check_rights, has_rights
 from .db import db
 
 user_repository = UserRepository(db)

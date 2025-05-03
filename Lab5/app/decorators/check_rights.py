@@ -9,6 +9,16 @@ from ..db import db
 role_repository = RoleRepository(db)
 user_repository = UserRepository(db)
 
+def has_rights(required_permission):
+    if not current_user.is_authenticated:
+        return False
+    user = user_repository.get_by_id(current_user.id)
+    if not user:
+        return False
+    role = role_repository.get_by_id(user.role_id)
+    return role and role.name == required_permission
+
+
 def check_rights(required_permission):
     def decorator(func):
         @wraps(func)
@@ -16,16 +26,9 @@ def check_rights(required_permission):
             
             g.has_permission = False
             
-            if current_user.is_authenticated:
-                user = user_repository.get_by_id(current_user.id)
-                if user:
-                    user_role = role_repository.get_by_id(user.role_id)
-                    g.has_permission = (user_role.name == required_permission)
-                    
-            if not g.has_permission:
-                flash('У вас недостаточно прав для доступа к данной странице!')
-                return redirect(url_for('auth.login'))
-
+            if not has_rights(required_permission):
+                flash('У вас недостаточно прав для доступа к данной странице!', 'warning')
+                return redirect(url_for('users.index'))
             return func(*args, **kwargs)
         return wrapper
     return decorator

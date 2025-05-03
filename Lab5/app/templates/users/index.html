@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1> {{ g.has_permission }} </h1>
+    <h1> {{ has_rights('admin') }} </h1>
     <table class="table">
         <thead>
             <tr>
@@ -26,13 +26,13 @@
                 <td> {{ user.role }} </td>
                 <td> {{ user.created_at }} </td>
                 <td>
-                {% if g.has_permission or user.id == current_user.id %}
+                {% if has_rights('admin') or user.id == current_user.id %}
                     <a class="btn btn-primary" href="{{ url_for('users.show', user_id=user.id) }}"> View </a>
                 {% endif %}
-                {% if current_user.is_authenticated and (g.has_permission or current_user.id == user.id) %}
+                {% if current_user.is_authenticated and (has_rights('admin') or current_user.id == user.id) %}
                     <a class="btn btn-primary" href="{{ url_for('users.edit', user_id=user.id) }}"> Edit </a>
                 {% endif %}
-                {% if current_user.is_authenticated and g.has_permission %}
+                {% if current_user.is_authenticated and has_rights('admin') %}
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" 
                         data-user-id="{{ user.id }}"> Delete </button>
                 {% endif %}    
