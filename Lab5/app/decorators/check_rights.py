@@ -24,7 +24,7 @@ def check_rights(required_permission):
         def wrapper(*args, **kwargs):   
             
             if not current_user.is_authenticated:
-                return redirect(url_for('auth.login'))
+                return
         
             user_id = kwargs.get('user_id')
             
