@@ -3,7 +3,7 @@
 function modalShown(event) {
     let button = event.relatedTarget;
     let userId = button.dataset.userId;
-    let newUrl = `/users/${userId}/delete`;
+    let newUrl =  button.dataset.deleteUrl;
     let form = document.getElementById('deleteModalForm');
     let row = button.closest('tr');
     let lastName = row.querySelector('td:nth-child(3)').textContent;

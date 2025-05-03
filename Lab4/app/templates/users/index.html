@@ -30,7 +30,7 @@
                 {% if current_user.is_authenticated %}
                     <a class="btn btn-primary" href="{{ url_for('users.edit', user_id=user.id) }}"> Edit </a>
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" 
-                        data-user-id="{{ user.id }}"> Delete </button>
+                        data-user-id="{{ user.id }}" data-delete-url="{{ url_for('users.delete', user_id=user.id) }}"> Delete </button>
                 </td>
                 {% endif %}
             </tr>
