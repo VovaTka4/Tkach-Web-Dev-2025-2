@@ -19,6 +19,7 @@ def index():
     return render_template('users/index.html', users=user_repository.all(), is_admin = has_rights('admin'))
 
 @bp.route('/<int:user_id>')
+@check_rights('admin')
 def show(user_id):
     user = user_repository.get_by_id(user_id)
     if user is None:
