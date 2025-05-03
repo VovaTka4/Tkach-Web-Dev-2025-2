@@ -22,9 +22,6 @@ def check_rights(required_permission):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):   
-            
-            if not current_user.is_authenticated:
-                return
         
             user_id = kwargs.get('user_id')
             

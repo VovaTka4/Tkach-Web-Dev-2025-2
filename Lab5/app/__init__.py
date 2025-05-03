@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask, session
-from .decorators.check_rights import has_rights
 from .db import db
 
 def create_app(test_config=None):
@@ -23,9 +22,5 @@ def create_app(test_config=None):
     from . import users
     app.register_blueprint(users.bp)
     app.route('/', endpoint='index')(users.index)
-    
-    @app.context_processor
-    def inject_permissions():
-        return dict(has_rights=has_rights)
     
     return app

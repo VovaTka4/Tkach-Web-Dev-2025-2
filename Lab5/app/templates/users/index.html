@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1> {{ g.is_admin or g.has_rights }} </h1>
+    <h1> {{ is_admin }} </h1>
     <table class="table">
         <thead>
             <tr>
@@ -26,10 +26,10 @@
                 <td> {{ user.role }} </td>
                 <td> {{ user.created_at }} </td>
                 <td>
-                {% if g.is_admin or g.has_rights %}
+                {% if g.is_admin or user.id == current_user.id %}
                     <a class="btn btn-primary" href="{{ url_for('users.show', user_id=user.id) }}"> View </a>
                 {% endif %}
-                {% if current_user.is_authenticated and (g.is_admin or g.has_rights) %}
+                {% if current_user.is_authenticated and (is_admin or user.id == current_user.id) %}
                     <a class="btn btn-primary" href="{{ url_for('users.edit', user_id=user.id) }}"> Edit </a>
                 {% endif %}
                 {% if current_user.is_authenticated and g.is_admin %}
@@ -41,7 +41,7 @@
             {% endfor %}
         </tbody>
     </table>
-    {% if current_user.is_authenticated %}
+    {% if current_user.is_authenticated and g.is_admin %}
     <a href="{{ url_for('users.new') }}" class="btn btn-primary">Добавить пользователя</a>
     {% endif %}
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
