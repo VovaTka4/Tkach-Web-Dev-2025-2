@@ -26,9 +26,11 @@ def check_rights(required_permission):
             
             g.has_permission = False
             
-            if not has_rights(required_permission):
-                flash('У вас недостаточно прав для доступа к данной странице!', 'warning')
-                # return redirect(url_for('users.index'))
+            user_id = kwargs.get('user_id')
+            
+            if not has_rights(required_permission) or (user_id != current_user.id):
+                flash('У вас недостаточно прав для доступа к данной странице! USERID:' + user_id + " CURRENTUSERID: " +current_user.id, 'warning')
+                return redirect(url_for('users.index'))
             return func(*args, **kwargs)
         return wrapper
     return decorator
