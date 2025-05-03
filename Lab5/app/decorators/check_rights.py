@@ -22,20 +22,20 @@ def check_rights(required_permission):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):   
-            
-            if not current_user.is_authenticated:
-                return func(*args, **kwargs)
         
             user_id = kwargs.get('user_id')
             
-            g.is_admin = has_rights(required_permission)
-            g.has_rights =  (user_id == current_user.id)
-            
+            g.has_rights = False
+            g.is_admin = False
+
+            if current_user.is_authenticated:
+                g.is_admin = has_rights(required_permission)
+                g.has_rights = user_id is not None and user_id == current_user.id
+
             if g.has_rights or g.is_admin:
                 return func(*args, **kwargs)
-            
-            flash('У вас недостаточно прав для доступа к данной странице! USERID:' + str(user_id) + " CURRENTUSERID: " + str(current_user.id), 'warning')
-            
+
+            flash('У вас недостаточно прав для доступа к данной странице!', 'warning')
             return redirect(url_for('users.index'))
         
         return wrapper
