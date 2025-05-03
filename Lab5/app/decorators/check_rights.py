@@ -14,19 +14,17 @@ def check_rights(required_permission):
         @wraps(func)
         def wrapper(*args, **kwargs):   
             
-            if not current_user.is_authenticated:
-                flash("Пожалуйста, войдите в систему.", "danger")
-                next_url = request.args.get('next', url_for('auth.login'))
-                return redirect(next_url)
-              
-            user = user_repository.get_by_id(current_user.id) 
-            user_role = role_repository.get_by_id(user.role_id).name
-            g.has_permission = (user_role == required_permission)
-            user_id = kwargs.get("user_id")
-            if (not g.has_permission) or (user_role != required_permission and current_user.id == user_id):
-                flash("У вас недостаточно прав для данного действия.", "danger")
-                next_url = request.args.get('next', url_for('users.index'))
-                return redirect(next_url)
+            g.has_permission = False
+            
+            if current_user.is_authenticated:
+                user = user_repository.get_by_id(current_user.id)
+                if user:
+                    user_role = role_repository.get_by_id(user.role_id)
+                    g.has_permission = (user_role.name == required_permission)
+            
+            if not g.has_permission:
+                return redirect(url_for('users.index'))
+
             return func(*args, **kwargs)
         return wrapper
     return decorator
