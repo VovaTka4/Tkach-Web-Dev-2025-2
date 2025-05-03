@@ -26,7 +26,7 @@ def check_rights(required_permission):
             user_id = kwargs.get('user_id')
             
             g.is_admin = has_rights(required_permission)
-            g.has_rights =  (user_id == current_user.id)
+            g.has_rights =  current_user.is_authenticated and (user_id == current_user.id)
             
             if g.has_rights or g.is_admin:
                 return func(*args, **kwargs)
