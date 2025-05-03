@@ -18,19 +18,18 @@ def has_rights(required_permission):
     role = role_repository.get_by_id(user.role_id)
     return role and role.name == required_permission
 
-
 def check_rights(required_permission):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):   
-            
-            g.has_permission = False
-            
+                    
             user_id = kwargs.get('user_id')
             
-            if not has_rights(required_permission) or (user_id != current_user.id):
-                flash('У вас недостаточно прав для доступа к данной странице! USERID:' + str(user_id) + " CURRENTUSERID: " + str(current_user.id), 'warning')
-                return redirect(url_for('users.index'))
-            return func(*args, **kwargs)
+            if has_rights(required_permission) or (user_id == current_user.id):
+                return func(*args, **kwargs)
+            
+            flash('У вас недостаточно прав для доступа к данной странице! USERID:' + str(user_id) + " CURRENTUSERID: " + str(current_user.id, 'warning'))
+            return redirect(url_for('users.index'))
+        
         return wrapper
     return decorator
