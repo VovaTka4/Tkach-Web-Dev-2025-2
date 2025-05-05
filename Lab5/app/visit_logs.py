@@ -14,7 +14,7 @@ user_repository = UserRepository(db)
 
 @bp.route('/visit_logs')
 @login_required
-def index():
+def visit_logs():
     page = int(request.args.get('page', 1))
     per_page = 20
     offset = (page - 1) * per_page
@@ -35,13 +35,13 @@ def index():
         total_pages=(total + per_page - 1) // per_page    
     )
 
-@bp.route('/visit_logs/by_pages')
+@bp.route('/by_pages')
 @login_required
 def by_pages():
     stats = visit_log_repository.page_stats()
-    return render_template('visit_logs/pages_report.html', page_stats=stats)
+    return render_template('visit_logs/by_pages.html', page_stats=stats)
 
-@bp.route('/visit_logs/by_users')
+@bp.route('/by_users')
 @login_required
 def by_users():
     stats = visit_log_repository.user_stats()
@@ -54,7 +54,7 @@ def by_users():
                 row['username'] = f"{user.last_name or ''} {user.first_name or ''} {user.middle_name or ''}".strip()
             else:
                 row['username'] = "—"
-    return render_template('visit_logs/users_report.html', user_stats=stats)
+    return render_template('visit_logs/by_users.html', user_stats=stats)
 
 @bp.route('/export/pages')
 @login_required
