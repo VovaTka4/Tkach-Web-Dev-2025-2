@@ -31,7 +31,7 @@ def check_rights(required_permission):
             if g.has_rights or g.is_admin:
                 return func(*args, **kwargs)
             
-            flash('У вас недостаточно прав для доступа к данной странице! USERID:' + str(user_id) + " CURRENTUSERID: " + str(current_user.id), 'warning')
+            flash('У вас недостаточно прав для доступа к данной странице!')
             return redirect(url_for('users.index'))
         
         return wrapper

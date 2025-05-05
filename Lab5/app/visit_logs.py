@@ -6,7 +6,6 @@ import csv
 from .repositories.visit_logs_repository import VisitLogsRepository
 from .repositories.user_repository import UserRepository
 from .db import db
-from .decorators.check_rights import has_rights
 
 bp = Blueprint('visit_logs', __name__, url_prefix='/visit-logs')
 
