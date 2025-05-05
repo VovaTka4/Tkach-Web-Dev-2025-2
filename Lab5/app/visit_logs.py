@@ -33,8 +33,7 @@ def index():
         visit_logs=logs,
         users=user_dict,
         current_page=page,
-        total_pages=(total + per_page - 1) // per_page,
-        is_admin=has_rights('admin')
+        total_pages=(total + per_page - 1) // per_page    
     )
 
 @bp.route('/visit_logs/by_pages')
