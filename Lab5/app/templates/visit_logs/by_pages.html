@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
-
 {% block content %}
     <h1>Отчет по страницам</h1>
-
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -21,6 +19,4 @@
             {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ url_for('visit_logs.export_pages_csv') }}" class="btn btn-primary mt-3">Экспорт в CSV</a>
 {% endblock %}
