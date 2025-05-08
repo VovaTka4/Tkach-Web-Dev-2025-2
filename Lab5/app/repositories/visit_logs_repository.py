@@ -10,7 +10,7 @@ class VisitLogsRepository:
     
     def all(self):
         with self.db_connector.connect().cursor(named_tuple=True) as cursor:
-            cursor.execute("SELECT * FROM visit_logs")
+            cursor.execute("SELECT * FROM visit_logs ORDER BY created_at DESC")
             logs = cursor.fetchall()
         return logs
     
