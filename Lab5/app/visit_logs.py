@@ -67,24 +67,3 @@ def export_users_csv():
         as_attachment=True,
         download_name='users_report.csv'
     )
-
-@bp.route('/export/users')
-@login_required
-def export_users_csv():
-    stats = visit_log_repository.user_stats()
-    
-    output = StringIO()
-    writer = csv.writer(output)
-    writer.writerow(['№', 'Пользователь', 'Количество посещений'])
-
-    for i, row in enumerate(stats, 1):
-        username = row.username if row.username else "Неаутентифицированный пользователь"
-        writer.writerow([i, username, row.count])
-
-    output.seek(0)
-    return send_file(
-        output,
-        mimetype='text/csv',
-        as_attachment=True,
-        download_name='users_report.csv'
-    )
