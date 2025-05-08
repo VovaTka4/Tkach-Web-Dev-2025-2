@@ -26,6 +26,9 @@ def create_app(test_config=None):
     from . import users
     app.register_blueprint(users.bp)
     app.route('/', endpoint='index')(users.index)
+    
+    from . import visit_logs
+    app.register_blueprint(visit_logs.bp)
             
     @app.before_request
     def log_visit():
