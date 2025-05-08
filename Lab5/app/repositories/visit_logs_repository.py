@@ -33,7 +33,7 @@ class VisitLogsRepository:
     
     def user_stats(self):
         with self.db_connector.connect().cursor(named_tuple=True) as cursor:
-            cursor.execute("SELECT path, COUNT(*) AS count FROM visit_logs GROUP BY user_id ORDER BY count DESC")
+            cursor.execute("SELECT user_id, COUNT(*) AS count FROM visit_logs GROUP BY user_id ORDER BY count DESC")
             stats = cursor.fetchall()
         return stats
     
