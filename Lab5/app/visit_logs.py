@@ -53,8 +53,10 @@ def export_users_csv():
     stats = visit_log_repository.user_stats()
     
     output = BytesIO()
+    output.write('\ufeff'.encode('utf-8'))
+    
     text_stream = StringIO()
-    writer = csv.writer(text_stream)
+    writer = csv.writer(text_stream, delimiter=';')
     writer.writerow(['№', 'Пользователь', 'Количество посещений'])
 
     for i, row in enumerate(stats, 1):
