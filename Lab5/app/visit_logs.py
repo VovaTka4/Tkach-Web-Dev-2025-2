@@ -37,13 +37,4 @@ def by_pages():
 @login_required
 def by_users():
     stats = visit_log_repository.user_stats()
-    for row in stats:
-        if row['user_id'] is None:
-            row['username'] = "Неаутентифицированный пользователь"
-        else:
-            user = user_repository.get_by_id(row['user_id'])
-            if user:
-                row['username'] = f"{user.last_name or ''} {user.first_name or ''} {user.middle_name or ''}".strip()
-            else:
-                row['username'] = "—"
     return render_template('visit_logs/by_users.html', user_stats=stats)

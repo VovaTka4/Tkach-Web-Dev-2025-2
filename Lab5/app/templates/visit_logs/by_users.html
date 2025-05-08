@@ -13,7 +13,7 @@
             {% for row in user_stats %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ row.username }}</td>
+                    <td>{{ row.username if row.username else 'Неаутентифицированный пользователь'}}</td>
                     <td>{{ row.count }}</td>
                 </tr>
             {% endfor %}
