@@ -13,8 +13,11 @@ user_repository = UserRepository(db)
 @bp.route('/visits')
 @login_required
 def visits():
-
-    logs = visit_log_repository.all()
+    page = int(request.args.get('page', 1))
+    offset = (page - 1) * 20
+    
+    logs = visit_log_repository.paginated(offset)
+    total = visit_log_repository.count()
 
     user_dict = {
         user.id: f"{user.last_name} {user.first_name} {user.middle_name or ''}".strip()
@@ -24,7 +27,9 @@ def visits():
     return render_template(
         'visit_logs/visits.html',
         visit_logs=logs,
-        users=user_dict
+        users=user_dict,
+        current_page = page,
+        total_pages = (total + 20 - 1) // 20
     )
 
 @bp.route('/by_pages')

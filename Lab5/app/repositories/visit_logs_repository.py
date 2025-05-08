@@ -37,4 +37,17 @@ class VisitLogsRepository:
             stats = cursor.fetchall()
         return stats
     
-    
+    def paginated(self, offset=0):
+        with self.db_connector.connect().cursor(named_tuple=True) as cursor:
+            cursor.execute("""
+                SELECT * FROM visit_logs
+                ORDER BY created_at DESC
+                LIMIT 20 OFFSET %s
+            """, (offset,))
+            logs = cursor.fetchall()
+        return logs
+
+    def count(self):
+        with self.db_connector.connect().cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM visit_logs")
+            return cursor.fetchone()[0]
