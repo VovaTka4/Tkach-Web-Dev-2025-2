@@ -1,5 +1,5 @@
 import csv
-from io import StringIO
+from io import StringIO, BytesIO
 
 from flask import Blueprint, render_template, request, send_file
 from flask_login import login_required, current_user
@@ -52,15 +52,18 @@ def by_users():
 def export_users_csv():
     stats = visit_log_repository.user_stats()
     
-    output = StringIO()
-    writer = csv.writer(output)
+    output = BytesIO()
+    text_stream = StringIO()
+    writer = csv.writer(text_stream)
     writer.writerow(['№', 'Пользователь', 'Количество посещений'])
 
     for i, row in enumerate(stats, 1):
         username = row.username if row.username else "Неаутентифицированный пользователь"
         writer.writerow([i, username, row.count])
 
+    output.write(text_stream.getvalue().encode('utf-8'))
     output.seek(0)
+
     return send_file(
         output,
         mimetype='text/csv',
