@@ -12,7 +12,7 @@ user_repository = UserRepository(db)
 
 @bp.route('/visits')
 @login_required
-def visit_logs():
+def visits():
 
     logs = visit_log_repository.all()
 
