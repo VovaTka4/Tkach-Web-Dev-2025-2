@@ -1,3 +1,6 @@
+import csv
+from io import StringIO
+
 from flask import Blueprint, render_template, request, send_file
 from flask_login import login_required, current_user
 
@@ -43,3 +46,45 @@ def by_pages():
 def by_users():
     stats = visit_log_repository.user_stats()
     return render_template('visit_logs/by_users.html', user_stats=stats)
+
+@bp.route('/export/users')
+@login_required
+def export_users_csv():
+    stats = visit_log_repository.user_stats()
+    
+    output = StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['№', 'Пользователь', 'Количество посещений'])
+
+    for i, row in enumerate(stats, 1):
+        username = row.username if row.username else "Неаутентифицированный пользователь"
+        writer.writerow([i, username, row.count])
+
+    output.seek(0)
+    return send_file(
+        output,
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name='users_report.csv'
+    )
+
+@bp.route('/export/users')
+@login_required
+def export_users_csv():
+    stats = visit_log_repository.user_stats()
+    
+    output = StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['№', 'Пользователь', 'Количество посещений'])
+
+    for i, row in enumerate(stats, 1):
+        username = row.username if row.username else "Неаутентифицированный пользователь"
+        writer.writerow([i, username, row.count])
+
+    output.seek(0)
+    return send_file(
+        output,
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name='users_report.csv'
+    )
