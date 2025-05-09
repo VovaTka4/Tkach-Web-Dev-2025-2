@@ -72,3 +72,28 @@ def export_users_csv():
         as_attachment=True,
         download_name='users_report.csv'
     )
+    
+@bp.route('/export/pages')
+@login_required
+def export_pages_csv():
+    stats = visit_log_repository.page_stats()
+    
+    output = BytesIO()
+    output.write('\ufeff'.encode('utf-8'))
+    
+    text_stream = StringIO()
+    writer = csv.writer(text_stream, delimiter=';')
+    writer.writerow(['№', 'Страница', 'Количество посещений'])
+
+    for i, row in enumerate(stats, 1):
+        writer.writerow([i, row.path, row.count])
+
+    output.write(text_stream.getvalue().encode('utf-8'))
+    output.seek(0)
+
+    return send_file(
+        output,
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name='pages_report.csv'
+    )
