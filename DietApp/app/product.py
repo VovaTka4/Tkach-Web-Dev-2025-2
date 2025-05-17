@@ -90,7 +90,6 @@ def create_product():
 
 @bp.route('/<int:product_id>/edit', methods=['GET', 'POST'])
 @login_required
-@check_rights('edit_product')
 def edit_product(product_id):
     product = product_repository.get_by_id(product_id)
     if not product:
