@@ -39,7 +39,7 @@ def login():
         if user is not None:
             flash('Авторизация прошла успешно', 'success')
             login_user(User(user.id, user.username), remember=remember_me)
-            next_url = request.args.get('next', url_for('users.index'))
+            next_url = request.args.get('next', url_for('meals.index'))
             return redirect(next_url)
         flash('Invalid username or password', 'danger')
     return render_template('auth/login.html')
