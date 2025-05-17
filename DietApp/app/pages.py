@@ -33,9 +33,9 @@ def bmr_calculator():
 
             calories = bmr * float(user_data['activity'])
 
-            if user_data['goal'] == 'lose':
+            if user_data['goal'] == 'lose weight':
                 calories -= 500
-            elif user_data['goal'] == 'gain':
+            elif user_data['goal'] == 'gain weight':
                 calories += 500
 
             calories = round(calories)

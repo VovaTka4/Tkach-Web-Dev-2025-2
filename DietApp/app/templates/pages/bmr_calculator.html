@@ -67,10 +67,11 @@
                 <input type="number" class="form-control" name="carbs" id="carbs" value="{{ result.carbs }}" required>
             </div>
             <div class="mb-2">
-                <select class="form-select" id="goal-display" disabled>
-                    <option value="maintain" {% if result.goal == 'maintain' %}selected{% endif %}>Поддержание</option>
-                    <option value="lose" {% if result.goal == 'lose' %}selected{% endif %}>Похудение</option>
-                    <option value="gain" {% if result.goal == 'gain' %}selected{% endif %}>Набор</option>
+                <label for="goal-display" class="form-label"><strong>Цель:</strong></label>
+                <select class="form-select" id="goal-display" name="goal-display" disabled>
+                    <option value="maintain" {% if result.goal == 'maintain weight' %}selected{% endif %}>Поддержание</option>
+                    <option value="lose" {% if result.goal == 'lose weight' %}selected{% endif %}>Похудение</option>
+                    <option value="gain" {% if result.goal == 'gain weight' %}selected{% endif %}>Набор</option>
                 </select>
                 <input type="hidden" name="goal" value="{{ result.goal }}">
             </div>
