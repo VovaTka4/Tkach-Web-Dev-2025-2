@@ -71,7 +71,7 @@ def products():
     
 @bp.route('/new', methods=['GET', 'POST'])
 @login_required
-def create_product():
+def new():
     if request.method == 'POST':
         name = request.form['name']
         calories = request.form['calories']
@@ -90,7 +90,7 @@ def create_product():
 
 @bp.route('/<int:product_id>/edit', methods=['GET', 'POST'])
 @login_required
-def edit_product(product_id):
+def edit(product_id):
     product = product_repository.get_by_id(product_id)
     if not product:
         flash('Продукт не найден', 'danger')
