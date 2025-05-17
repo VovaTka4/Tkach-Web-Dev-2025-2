@@ -27,17 +27,18 @@ def bmr_calculator():
         try:
             # Формула Харриса-Бенедикта
             if user_data['gender'] == 'male':
-                bmr = (10 * int(user_data['weight'])) + (6.25 * int(user_data['height'])) - (5 * int(user_data['age'])) + 5
+                bmr = (10 * float(user_data['weight'])) + (6.25 * float(user_data['height'])) - (5 * int(user_data['age'])) + 5
             else:
-                bmr = (10 * int(user_data['weight'])) + (6.25 * int(user_data['height'])) - (5 * int(user_data['age'])) - 161
+                bmr = (10 * float(user_data['weight'])) + (6.25 * float(user_data['height'])) - (5 * int(user_data['age'])) - 161
 
-            calories = bmr * int(user_data['activity'])
+            calories = bmr * float(user_data['activity'])
 
             if user_data['goal'] == 'lose':
                 calories -= 500
             elif user_data['goal'] == 'gain':
                 calories += 500
 
+            calories = round(calories)
             protein = round((calories * 0.3) / 4)
             fat = round((calories * 0.25) / 9)
             carbs = round((calories * 0.45) / 4)
