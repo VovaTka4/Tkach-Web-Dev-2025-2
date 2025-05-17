@@ -67,7 +67,7 @@ def products():
     except connector.errors.DatabaseError as e:
         flash('Ошибка при получении списка продуктов.', 'danger')
         print(e)
-        return render_template('products/product.html', products=[])
+        return render_template('product/products.html', products=[])
     
 @bp.route('/new', methods=['GET', 'POST'])
 @login_required
@@ -94,7 +94,7 @@ def edit_product(product_id):
     product = product_repository.get_by_id(product_id)
     if not product:
         flash('Продукт не найден', 'danger')
-        return redirect(url_for('products.product'))
+        return redirect(url_for('product.productS'))
 
     if request.method == 'POST':
         name = request.form['name']
