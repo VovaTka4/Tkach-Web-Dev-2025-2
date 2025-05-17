@@ -12,9 +12,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
         
     db.init_app(app)
-    
-    visit_log_repository = VisitLogsRepository(db)
-    
+        
     from .cli import init_db_command
     app.cli.add_command(init_db_command)
     
