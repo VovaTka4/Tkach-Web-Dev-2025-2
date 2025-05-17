@@ -18,7 +18,7 @@ app = DispatcherMiddleware(root_app, {
     '/lab3': lab3_app,
     '/lab4': lab4_app,
     '/lab5': lab5_app,
-    'DietApp': diet_app,
+    '/DietApp': diet_app,
 })
 
 application = app
