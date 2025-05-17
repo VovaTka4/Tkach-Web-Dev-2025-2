@@ -57,7 +57,7 @@ def bmr_calculator():
             flash('Произошла ошибка при создании записи. Проверьте, что все необходимые поля заполнены', 'danger')
             db.connect().rollback()
             
-    return render_template('pages/bmr_calculator.html', result=result)
+    return render_template('pages/bmr_calculator.html', user_data=user_data, result=result)
 
 @bp.route('/save_bmr', methods=['POST'])
 @login_required
