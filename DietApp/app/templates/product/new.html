@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% from 'products/form.html' import product_form %}
 
-{% block title %}Новый продукт{% endblock %}
-
 {% block content %}
     <h2 class="text-center mb-4">Создание нового продукта</h2>
     {{ product_form() }}
