@@ -67,7 +67,7 @@ def save_bmr():
         protein = int(request.form['protein'])
         fat = int(request.form['fat'])
         carbs = int(request.form['carbs'])
-        goal = request.form.get('goal', 'maintain')
+        goal = request.form['goal']
 
         user_repository.set_goal(current_user.get_id(), goal, calories, protein, fat, carbs)
         flash('Цели успешно сохранены!', 'success')
