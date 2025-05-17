@@ -1,82 +1,82 @@
-{% extends 'base.html' %}
+    {% extends 'base.html' %}
 
-{% block content %}
-<h2 class="mb-4">Калькулятор БМО</h2>
-<form method="post" id="bmr-form">
-    <div class="mb-3">
-        <label for="age" class="form-label">Возраст</label>
-        <input type="number" class="form-control" id="age" name="age" required min="0">
-    </div>
-    <div class="mb-3">
-        <label for="height" class="form-label">Рост (см)</label>
-        <input type="number" class="form-control" id="height" name="height" required min="0">
-    </div>
-    <div class="mb-3">
-        <label for="weight" class="form-label">Вес (кг)</label>
-        <input type="number" class="form-control" id="weight" name="weight" required min="0">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Пол</label><br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
-            <label class="form-check-label" for="male">Мужской</label>
+    {% block content %}
+    <h2 class="mb-4">Калькулятор БМО</h2>
+    <form method="post" id="bmr-form">
+        <div class="mb-3">
+            <label for="age" class="form-label">Возраст</label>
+            <input type="number" class="form-control" id="age" name="age" required min="0">
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-            <label class="form-check-label" for="female">Женский</label>
+        <div class="mb-3">
+            <label for="height" class="form-label">Рост (см)</label>
+            <input type="number" class="form-control" id="height" name="height" required min="0">
         </div>
-    </div>
-    <div class="mb-3">
-        <label for="activity" class="form-label">Индекс активности</label>
-        <select class="form-select" id="activity" name="activity" required>
-            <option value="1.2">Минимальный</option>
-            <option value="1.375">Низкий</option>
-            <option value="1.55">Средний</option>
-            <option value="1.725">Высокий</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="goal" class="form-label">Цель</label>
-        <select class="form-select" id="goal" name="goal" required>
-            <option value="maintain">Поддержание</option>
-            <option value="lose">Похудение</option>
-            <option value="gain">Набор</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Рассчитать</button>
-</form>
-
-{% if result %}
-<div class="mt-4 alert alert-info" id="bmr-result">
-    <h4>Результат:</h4>
-    <form method="post" action="{{ url_for('pages.save_bmr') }}">
-        <div class="mb-2">
-            <label for="calories" class="form-label"><strong>Калории:</strong></label>
-            <input type="number" class="form-control" name="calories" id="calories" value="{{ result.calories }}" required>
+        <div class="mb-3">
+            <label for="weight" class="form-label">Вес (кг)</label>
+            <input type="number" class="form-control" id="weight" name="weight" required min="0">
         </div>
-        <div class="mb-2">
-            <label for="protein" class="form-label"><strong>Белки (г):</strong></label>
-            <input type="number" class="form-control" name="protein" id="protein" value="{{ result.protein }}" required>
+        <div class="mb-3">
+            <label class="form-label">Пол</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                <label class="form-check-label" for="male">Мужской</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                <label class="form-check-label" for="female">Женский</label>
+            </div>
         </div>
-        <div class="mb-2">
-            <label for="fat" class="form-label"><strong>Жиры (г):</strong></label>
-            <input type="number" class="form-control" name="fat" id="fat" value="{{ result.fat }}" required>
-        </div>
-        <div class="mb-2">
-            <label for="carbs" class="form-label"><strong>Углеводы (г):</strong></label>
-            <input type="number" class="form-control" name="carbs" id="carbs" value="{{ result.carbs }}" required>
-        </div>
-        <div class="mb-2">
-            <label for="goal" class="form-label"><strong>Цель:</strong></label>
-            <select class="form-select" name="goal" id="goal" required>
-                <option value="maintain" {% if result.goal == 'maintain' %}selected{% endif %}>Поддержание</option>
-                <option value="lose" {% if result.goal == 'lose' %}selected{% endif %}>Похудение</option>
-                <option value="gain" {% if result.goal == 'gain' %}selected{% endif %}>Набор</option>
+        <div class="mb-3">
+            <label for="activity" class="form-label">Индекс активности</label>
+            <select class="form-select" id="activity" name="activity" required>
+                <option value="1.2">Минимальный</option>
+                <option value="1.375">Низкий</option>
+                <option value="1.55">Средний</option>
+                <option value="1.725">Высокий</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-success mt-2">Сохранить</button>
+        <div class="mb-3">
+            <label for="goal" class="form-label">Цель</label>
+            <select class="form-select" id="goal" name="goal" required>
+                <option value="maintain">Поддержание</option>
+                <option value="lose">Похудение</option>
+                <option value="gain">Набор</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Рассчитать</button>
     </form>
-</div>
 
-{% endif %}
-{% endblock %}
+    {% if result %}
+    <div class="mt-4 alert alert-info" id="bmr-result">
+        <h4>Результат:</h4>
+        <form method="post" action="{{ url_for('pages.save_bmr') }}">
+            <div class="mb-2">
+                <label for="calories" class="form-label"><strong>Калории:</strong></label>
+                <input type="number" class="form-control" name="calories" id="calories" value="{{ result.calories }}" required>
+            </div>
+            <div class="mb-2">
+                <label for="protein" class="form-label"><strong>Белки (г):</strong></label>
+                <input type="number" class="form-control" name="protein" id="protein" value="{{ result.protein }}" required>
+            </div>
+            <div class="mb-2">
+                <label for="fat" class="form-label"><strong>Жиры (г):</strong></label>
+                <input type="number" class="form-control" name="fat" id="fat" value="{{ result.fat }}" required>
+            </div>
+            <div class="mb-2">
+                <label for="carbs" class="form-label"><strong>Углеводы (г):</strong></label>
+                <input type="number" class="form-control" name="carbs" id="carbs" value="{{ result.carbs }}" required>
+            </div>
+            <div class="mb-2">
+                <select class="form-select" id="goal-display" disabled>
+                    <option value="maintain" {% if result.goal == 'maintain' %}selected{% endif %}>Поддержание</option>
+                    <option value="lose" {% if result.goal == 'lose' %}selected{% endif %}>Похудение</option>
+                    <option value="gain" {% if result.goal == 'gain' %}selected{% endif %}>Набор</option>
+                </select>
+                <input type="hidden" name="goal" value="{{ result.goal }}">
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Сохранить</button>
+        </form>
+    </div>
+
+    {% endif %}
+    {% endblock %}
