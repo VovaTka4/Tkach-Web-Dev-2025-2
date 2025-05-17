@@ -68,7 +68,7 @@
             </div>
             <div class="mb-2">
                 <label for="goal-display" class="form-label"><strong>Цель:</strong></label>
-                <select class="form-select" id="goal" name="goal" required>
+                <select class="form-select" id="goal" name="goal" disabled>
                     <option value="maintain weight" {% if result.goal == 'maintain weight' %}selected{% endif %}>Поддержание</option>
                     <option value="lose weight" {% if result.goal == 'lose weight' %}selected{% endif %}>Похудение</option>
                     <option value="gain weight" {% if result.goal == 'gain weight' %}selected{% endif %}>Набор</option>
