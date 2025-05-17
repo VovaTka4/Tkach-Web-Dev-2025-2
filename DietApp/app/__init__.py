@@ -2,7 +2,6 @@ import os
 
 from flask import Flask, session, request
 from flask_login import current_user
-from .repositories.visit_logs_repository import VisitLogsRepository
 from .db import db
 
 def create_app(test_config=None):
