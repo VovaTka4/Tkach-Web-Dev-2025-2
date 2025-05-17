@@ -15,7 +15,7 @@
                     <label class="form-label">{{ field|capitalize }} от / до</label>
                     <div class="d-flex">
                         <input type="number" name="{{ field }}_min" class="form-control me-1" placeholder="от" value="{{ filters[field + '_min'] }}">
-                        <input type="number" name="{{ field }}_max" class="form-control" placeholder="до" value="{{ filters[field + '_max'] }}>
+                        <input type="number" name="{{ field }}_max" class="form-control" placeholder="до" value="{{ filters[field + '_max'] }}">
                     </div>
                 </div>
                 {% endfor %}
