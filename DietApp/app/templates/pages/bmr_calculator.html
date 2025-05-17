@@ -49,18 +49,34 @@
 {% if result %}
 <div class="mt-4 alert alert-info" id="bmr-result">
     <h4>Результат:</h4>
-    <p><strong>Калории:</strong> {{ result.calories }}</p>
-    <p><strong>Белки:</strong> {{ result.protein }} г</p>
-    <p><strong>Жиры:</strong> {{ result.fat }} г</p>
-    <p><strong>Углеводы:</strong> {{ result.carbs }} г</p>
     <form method="post" action="{{ url_for('pages.save_bmr') }}">
-        <input type="hidden" name="calories" value="{{ result.calories }}">
-        <input type="hidden" name="protein" value="{{ result.protein }}">
-        <input type="hidden" name="fat" value="{{ result.fat }}">
-        <input type="hidden" name="carbs" value="{{ result.carbs }}">
-        <input type="hidden" name="goal" value="{{ request.goal }}">
+        <div class="mb-2">
+            <label for="calories" class="form-label"><strong>Калории:</strong></label>
+            <input type="number" class="form-control" name="calories" id="calories" value="{{ result.calories }}" required>
+        </div>
+        <div class="mb-2">
+            <label for="protein" class="form-label"><strong>Белки (г):</strong></label>
+            <input type="number" class="form-control" name="protein" id="protein" value="{{ result.protein }}" required>
+        </div>
+        <div class="mb-2">
+            <label for="fat" class="form-label"><strong>Жиры (г):</strong></label>
+            <input type="number" class="form-control" name="fat" id="fat" value="{{ result.fat }}" required>
+        </div>
+        <div class="mb-2">
+            <label for="carbs" class="form-label"><strong>Углеводы (г):</strong></label>
+            <input type="number" class="form-control" name="carbs" id="carbs" value="{{ result.carbs }}" required>
+        </div>
+        <div class="mb-2">
+            <label for="goal" class="form-label"><strong>Цель:</strong></label>
+            <select class="form-select" name="goal" id="goal" required>
+                <option value="maintain" {% if result.goal == 'maintain' %}selected{% endif %}>Поддержание</option>
+                <option value="lose" {% if result.goal == 'lose' %}selected{% endif %}>Похудение</option>
+                <option value="gain" {% if result.goal == 'gain' %}selected{% endif %}>Набор</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-success mt-2">Сохранить</button>
     </form>
 </div>
+
 {% endif %}
 {% endblock %}
