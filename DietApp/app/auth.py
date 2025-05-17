@@ -4,7 +4,7 @@ from flask_login  import LoginManager, UserMixin, current_user, login_user, logo
 from .repositories.user_repository import UserRepository
 import mysql.connector as connector
 from .db import db
-from .validators import password_validator
+from .validators.password_validator import password_validator
 
 user_repository = UserRepository(db)
 
