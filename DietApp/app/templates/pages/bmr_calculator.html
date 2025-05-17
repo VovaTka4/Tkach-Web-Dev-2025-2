@@ -58,7 +58,7 @@
         <input type="hidden" name="protein" value="{{ result.protein }}">
         <input type="hidden" name="fat" value="{{ result.fat }}">
         <input type="hidden" name="carbs" value="{{ result.carbs }}">
-        <input type="hidden" name="goal" value="{{ request.form.get('goal', 'maintain') }}">
+        <input type="hidden" name="goal" value="{{ request.goal }}">
         <button type="submit" class="btn btn-success mt-2">Сохранить</button>
     </form>
 </div>
