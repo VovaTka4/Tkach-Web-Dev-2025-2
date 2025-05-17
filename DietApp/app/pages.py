@@ -44,6 +44,7 @@ def bmr_calculator():
             carbs = round((calories * 0.45) / 4)
             
             result = {
+                      'goal': user_data['goal'],
                       'calories': calories,
                       'protein': protein,
                       'fat': fat,
