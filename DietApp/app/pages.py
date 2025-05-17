@@ -1,13 +1,10 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 import mysql.connector as connector
-from .validators.password_validator import password_validator
-from werkzeug.security import check_password_hash, generate_password_hash
 from .repositories.user_repository import UserRepository
 from .repositories.m2m_product_meal_repository import M2MProductMealRepository
 from .repositories.meal_repository import MealRepository
 from .repositories.product_repository import ProductRepository
-from .decorators.check_rights import check_rights, has_rights
 from .db import db
 
 user_repository = UserRepository(db)
