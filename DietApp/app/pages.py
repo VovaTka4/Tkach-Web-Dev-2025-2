@@ -31,7 +31,7 @@ def bmr_calculator():
             else:
                 bmr = (10 * float(user_data['weight'])) + (6.25 * float(user_data['height'])) - (5 * int(user_data['age'])) - 161
 
-            calories = bmr * user_data['activity']
+            calories = bmr * float(user_data['activity'])
 
             if user_data['goal'] == 'lose':
                 calories -= 500
