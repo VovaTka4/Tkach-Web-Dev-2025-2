@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Калькулятор БМО</h2>
+<form method="post" id="bmr-form">
+    <div class="mb-3">
+        <label for="age" class="form-label">Возраст</label>
+        <input type="number" class="form-control" id="age" name="age" required min="0">
+    </div>
+    <div class="mb-3">
+        <label for="height" class="form-label">Рост (см)</label>
+        <input type="number" class="form-control" id="height" name="height" required min="0">
+    </div>
+    <div class="mb-3">
+        <label for="weight" class="form-label">Вес (кг)</label>
+        <input type="number" class="form-control" id="weight" name="weight" required min="0">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Пол</label><br>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+            <label class="form-check-label" for="male">Мужской</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+            <label class="form-check-label" for="female">Женский</label>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="activity" class="form-label">Индекс активности</label>
+        <select class="form-select" id="activity" name="activity" required>
+            <option value="1.2">Минимальный</option>
+            <option value="1.375">Низкий</option>
+            <option value="1.55">Средний</option>
+            <option value="1.725">Высокий</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="goal" class="form-label">Цель</label>
+        <select class="form-select" id="goal" name="goal" required>
+            <option value="maintain">Поддержание</option>
+            <option value="lose">Похудение</option>
+            <option value="gain">Набор</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Рассчитать</button>
+</form>
+
+{% if result %}
+<div class="mt-4 alert alert-info" id="bmr-result">
+    <h4>Результат:</h4>
+    <p><strong>Калории:</strong> {{ result.calories }}</p>
+    <p><strong>Белки:</strong> {{ result.protein }} г</p>
+    <p><strong>Жиры:</strong> {{ result.fat }} г</p>
+    <p><strong>Углеводы:</strong> {{ result.carbs }} г</p>
+    <form method="post" action="{{ url_for('pages.save_bmr') }}">
+        <input type="hidden" name="calories" value="{{ result.calories }}">
+        <input type="hidden" name="protein" value="{{ result.protein }}">
+        <input type="hidden" name="fat" value="{{ result.fat }}">
+        <input type="hidden" name="carbs" value="{{ result.carbs }}">
+        <input type="hidden" name="goal" value="{{ request.form.get('goal', 'maintain') }}">
+        <button type="submit" class="btn btn-success mt-2">Сохранить</button>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

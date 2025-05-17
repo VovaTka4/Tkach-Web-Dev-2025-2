@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method='post' novalidate>    
+    <div class="mb-3">
+        <label for="login" class="form-label">Логин</label>
+        <input type="text" name="username" id="login" class="form-control {% if not user_data.username or (val_error and val_error.startswith('Username')) %}is-invalid{% else %}is-valid{% endif %}" value="{{ user_data.username or ''}}">
+        {% if not user_data.username %}
+            <div class="invalid-feedback">
+                Заполните имя пользователя!
+            </div>
+        {% elif val_error and val_error.startswith('Username') %}
+            <div class="invalid-feedback">
+              {{ val_error }}
+            </div>
+        {% else %}
+            <div class="valid-feedback">
+                Все круто!
+            </div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Почта</label>
+        <input type="text" name="email" id="email" class="form-control {% if not user_data.email %}is-invalid{% else %}is-valid{% endif %}" value="{{ user_data.email or ''}}">
+        {% if not user_data.email %}
+            <div class="invalid-feedback">
+                Заполните адрес почты!
+            </div>
+        {% else %}
+            <div class="valid-feedback">
+                Все круто!
+            </div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Введите пароль</label>
+        <input type="password" name="password" id="password" class="form-control {% if not user_data.password or (val_error and (val_error.startswith("Пароль") or val_error.startswith('Пароли') or val_error.startswith('Используются'))) %}is-invalid{% else %}is-valid{% endif %}" value="{{ user_data.password or ''}}">
+        {% if not user_data.password %}
+            <div class="invalid-feedback">
+                Введите новый пароль!
+            </div>
+        {% elif val_error and (val_error.startswith("Пароль") or val_error.startswith('Используются'))%}
+            <div class="invalid-feedback">
+                {{ val_error }}
+            </div>
+        {% else %}
+            <div class="valid-feedback">
+                Все круто!
+            </div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="password_r" class="form-label">Повторите пароль</label>
+        <input type="password" name="password_r" id="password_r" class="form-control {% if not user_data.password_r or passwords_not_matching %}is-invalid{% else %}is-valid{% endif %}" value="{{ user_data.password_r or ''}}">
+        {% if not user_data.password_r %}
+        <div class="invalid-feedback">
+            Повторите новый пароль!
+        </div>
+        {% elif passwords_not_matching %}
+            <div class="invalid-feedback">
+                {{ passwords_not_matching }}
+            </div>
+        {% else %}
+            <div class="valid-feedback">
+                Все круто!
+            </div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary"> Зарегистрироваться </button>
+</form>
+
+{% endblock %}

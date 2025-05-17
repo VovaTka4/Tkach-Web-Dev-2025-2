@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Продукты
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 border-end p-3">
+            <h5>Фильтры</h5>
+            <form method="get" id="filters-form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Название</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                {% for field in ['calories', 'protein', 'fat', 'carbs'] %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field|capitalize }} от / до</label>
+                    <div class="d-flex">
+                        <input type="number" name="{{ field }}_min" class="form-control me-1" placeholder="от">
+                        <input type="number" name="{{ field }}_max" class="form-control" placeholder="до">
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="mine" id="mine">
+                    <label class="form-check-label" for="mine">Мои продукты</label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="shared" id="shared" checked>
+                    <label class="form-check-label" for="shared">Общие продукты</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Применить фильтры</button>
+            </form>
+        </div>
+
+        <div class="col-md-9 p-3">
+            <div class="row" id="products-container">
+                {% for product in products %}
+                    {% include 'product_card.html' %}
+                {% endfor %}
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-secondary" id="load-more">Загрузить ещё</button>
+                <a href="{{ url_for('add_product') }}" class="btn btn-success">Добавить продукт</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/products.js') }}"></script>
+{% endblock %}

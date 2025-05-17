@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <form method="get" action="{{ url_for('meals.index') }}">
+            <input type="date" name="date" class="form-control w-25 mx-auto" value="{{ selected_date }}">
+        </form>
+    </div>
+
+    <div class="text-center mb-4">
+        <h4>Цели на {{ selected_date }}:</h4>
+        <p>
+            <span class="fw-bold">Калории:</span>
+            <span class="badge bg-{{ goal_colors.calories }}">{{ goals.calories }}</span>
+            &nbsp; <span class="fw-bold">Белки:</span>
+            <span class="badge bg-{{ goal_colors.protein }}">{{ goals.protein }}</span>
+            &nbsp; <span class="fw-bold">Жиры:</span>
+            <span class="badge bg-{{ goal_colors.fat }}">{{ goals.fat }}</span>
+            &nbsp; <span class="fw-bold">Углеводы:</span>
+            <span class="badge bg-{{ goal_colors.carbs }}">{{ goals.carbs }}</span>
+        </p>
+    </div>
+
+    <div class="row">
+        {% for meal in meals %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ meal.name }}</h5>
+                    <p class="card-text">
+                        ККал: {{ meal.calories }}<br>
+                        Белки: {{ meal.protein }} г<br>
+                        Жиры: {{ meal.fat }} г<br>
+                        Углеводы: {{ meal.carbs }} г
+                    </p>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ url_for('meals.details', meal_id=meal.id) }}" class="btn btn-sm btn-info">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="{{ url_for('meals.edit', meal_id=meal.id) }}" class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                            data-meal-id="{{ meal.id }}" data-delete-url="{{ url_for('meals.delete', meal_id=meal.id) }}"> Delete 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('meals.new') }}" class="btn btn-success btn-lg">Добавить приём пищи</a>
+    </div>
+</div>
+{% endblock %}

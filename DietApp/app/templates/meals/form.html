@@ -1,0 +1,77 @@
+{% macro meal_form(action, meal_data={}) %}
+<form method="post" novalidate>
+    <div class="mb-3">
+        <label for="date" class="form-label">Выберите дату приема пищи:</label>
+        <input type="date" name="date" id="date"
+               class="form-control {% if not meal_data.date %}is-invalid{% else %}is-valid{% endif %}"
+               value="{{ meal_data.date or '' }}"
+               {% if action == 'show' %}disabled{% endif %} >
+        {% if not meal_data.date %}
+            <div class="invalid-feedback">Укажите дату приема пищи!</div>
+        {% else %}
+            <div class="valid-feedback">Дата выбрана</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="category" class="form-label">Выберите категорию приема пищи:</label>
+        <select name="category" id="category"
+                class="form-select {% if action == 'show' %}disabled{% endif %} {% if not meal_data.category %}is-invalid{% else %}is-valid{% endif %}">
+            <option value="">-- выберите категорию --</option>
+            {% for option in ['Завтрак', 'Обед', 'Ужин', 'Другое'] %}
+                <option value="{{ option }}" {% if meal_data.category == option %}selected{% endif %}>
+                    {{ option }}
+                </option>
+            {% endfor %}
+        </select>
+        {% if not meal_data.category %}
+            <div class="invalid-feedback">Укажите категорию приема пищи!</div>
+        {% else %}
+            <div class="valid-feedback">Категория выбрана</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <table class="table table-bordered" id="products-table">
+            <thead>
+                <tr>
+                    <th>Продукт</th>
+                    <th>Вес (г)</th>
+                    <th>Ккал</th>
+                    <th>Белки</th>
+                    <th>Жиры</th>
+                    <th>Углеводы</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in meal_data.products or [{}] %}
+                <tr>
+                    <td><input type="text" name="product_name" class="form-control" value="{{ row.name or '' }}"></td>
+                    <td><input type="number" name="weight" class="form-control" value="{{ row.weight or '' }}"></td>
+                    <td><input type="number" name="calories" class="form-control" value="{{ row.calories or '' }}"></td>
+                    <td><input type="number" name="protein" class="form-control" value="{{ row.protein or '' }}"></td>
+                    <td><input type="number" name="fat" class="form-control" value="{{ row.fat or '' }}"></td>
+                    <td><input type="number" name="carbs" class="form-control" value="{{ row.carbs or '' }}"></td>
+                    {% if action != 'show' %}
+                        <td><button type="button" class="btn btn-danger btn-sm remove-product">Удалить</button></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if action != 'show' %}
+            <button type="button" class="btn btn-secondary" id="add-product">
+                Добавить продукт
+            </button>
+        {% endif %}
+     </div>
+     {% if action != 'show' %}
+        <button type="submit" class="btn btn-primary mt-3">
+            Сохранить
+        </button>
+    {% endif %}
+</form>
+
+<script src="{{ url_for('static', filename='js/meal_form.js') }}"></script>
+{% endmacro %}

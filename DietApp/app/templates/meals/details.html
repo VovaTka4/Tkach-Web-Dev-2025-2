@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% from 'meals/form.html' import meal_form %}
+
+{% block content %}
+<h1 class="mb-3"> Детали приема пищи </h1>
+{{ meal_form('show  ', meal_data) }}
+{% endblock %}
