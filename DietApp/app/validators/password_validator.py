@@ -1,6 +1,6 @@
 import re
 
-def password_validator(password, password_r):
+def password_validator(password):
     if password is None or len(password) < 8:
         return "Пароль должен содержать как минимум 8 символов!"
     if len(password) > 128:
