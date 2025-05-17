@@ -34,6 +34,9 @@ def products():
             'fat_max': request.args.get('fat_max', default=1000000, type=int),
             'carbs_min': request.args.get('carbs_min', default=0, type=int),
             'carbs_max': request.args.get('carbs_max', default=1000000, type=int),
+            'name': name,
+            'mine': mine,
+            'shared': shared
         }
 
         all_products = product_repository.all()
@@ -62,7 +65,7 @@ def products():
 
             filtered.append(p)
 
-        return render_template('product/products.html', products=filtered)
+        return render_template('product/products.html', filters=filters, products=filtered)
     
     except connector.errors.DatabaseError as e:
         flash('Ошибка при получении списка продуктов.', 'danger')
@@ -80,8 +83,9 @@ def new():
         carbs = request.form['carbs']
         image = request.files.get('image')
         img_path = 'static/placeholder.png'  # Заглушка
+        is_admin = user_repository.get_by_id(current_user.get_id()).is_admin
 
-        product_repository.create(name, calories, protein, fat, carbs, img_path, False, current_user.get_id())
+        product_repository.create(name, calories, protein, fat, carbs, img_path, is_admin, current_user.get_id())
         flash('Продукт создан', 'success')
         return redirect(url_for('product.products'))
 
