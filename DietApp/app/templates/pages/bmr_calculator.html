@@ -38,9 +38,9 @@
         <div class="mb-3">
             <label for="goal" class="form-label">Цель</label>
             <select class="form-select" id="goal" name="goal" required>
-                <option value="maintain">Поддержание</option>
-                <option value="lose">Похудение</option>
-                <option value="gain">Набор</option>
+                <option value="maintain weight">Поддержание</option>
+                <option value="lose weight">Похудение</option>
+                <option value="gain weight">Набор</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Рассчитать</button>
@@ -68,11 +68,11 @@
             </div>
             <div class="mb-2">
                 <label for="goal-display" class="form-label"><strong>Цель:</strong></label>
-                <select class="form-select" id="goal-display" name="goal-display" disabled>
-                    <option value="maintain" {% if result.goal == 'maintain weight' %}selected{% endif %}>Поддержание</option>
-                    <option value="lose" {% if result.goal == 'lose weight' %}selected{% endif %}>Похудение</option>
-                    <option value="gain" {% if result.goal == 'gain weight' %}selected{% endif %}>Набор</option>
-                </select>
+                <select class="form-select" id="goal" name="goal" required>
+                    <option value="maintain weight" {% if result.goal == 'maintain weight' %}selected{% endif %}>Поддержание</option>
+                    <option value="lose weight" {% if result.goal == 'lose weight' %}selected{% endif %}>Похудение</option>
+                    <option value="gain weight" {% if result.goal == 'gain weight' %}selected{% endif %}>Набор</option>
+                </select>                
                 <input type="hidden" name="goal" value="{{ result.goal }}">
             </div>
             <button type="submit" class="btn btn-success mt-2">Сохранить</button>
