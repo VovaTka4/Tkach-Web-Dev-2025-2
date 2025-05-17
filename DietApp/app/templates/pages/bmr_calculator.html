@@ -5,42 +5,42 @@
     <form method="post" id="bmr-form">
         <div class="mb-3">
             <label for="age" class="form-label">Возраст</label>
-            <input type="number" class="form-control" id="age" name="age" required min="0">
+            <input type="number" class="form-control" id="age" name="age" required min="0" value="{{ user_data.age or '' }}">
         </div>
         <div class="mb-3">
             <label for="height" class="form-label">Рост (см)</label>
-            <input type="number" class="form-control" id="height" name="height" required min="0">
+            <input type="number" class="form-control" id="height" name="height" required min="0" value="{{ user_data.height or '' }}">
         </div>
         <div class="mb-3">
             <label for="weight" class="form-label">Вес (кг)</label>
-            <input type="number" class="form-control" id="weight" name="weight" required min="0">
+            <input type="number" class="form-control" id="weight" name="weight" required min="0" value="{{ user_data.weight or '' }}">
         </div>
         <div class="mb-3">
             <label class="form-label">Пол</label><br>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                <input class="form-check-input" type="radio" name="gender" id="male" value="male"  {% if form_data.gender == 'male' %}checked{% endif %} required>
                 <label class="form-check-label" for="male">Мужской</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                <input class="form-check-input" type="radio" name="gender" id="female" value="female"  {% if form_data.gender == 'female' %}checked{% endif %}>
                 <label class="form-check-label" for="female">Женский</label>
             </div>
         </div>
         <div class="mb-3">
             <label for="activity" class="form-label">Индекс активности</label>
             <select class="form-select" id="activity" name="activity" required>
-                <option value="1.2">Минимальный</option>
-                <option value="1.375">Низкий</option>
-                <option value="1.55">Средний</option>
-                <option value="1.725">Высокий</option>
+                <option value="1.2" {% if user_data.activity == '1.2' %}selected{% endif %}>Минимальный</option>
+                <option value="1.375" {% if user_data.activity == '1.375' %}selected{% endif %}>Низкий</option>
+                <option value="1.55" {% if user_data.activity == '1.55' %}selected{% endif %}>Средний</option>
+                <option value="1.725" {% if user_data.activity == '1.725' %}selected{% endif %}>Высокий</option>
             </select>
         </div>
         <div class="mb-3">
             <label for="goal" class="form-label">Цель</label>
             <select class="form-select" id="goal" name="goal" required>
-                <option value="maintain weight">Поддержание</option>
-                <option value="lose weight">Похудение</option>
-                <option value="gain weight">Набор</option>
+                <option value="maintain weight" {% if user_data.goal == 'maintan weight' %}selected{% endif %}>Поддержание</option>
+                <option value="lose weight"  {% if user_data.goal == 'lose weight' %}selected{% endif %}>Похудение</option>
+                <option value="gain weight"  {% if user_data.goal == 'gain weight' %}selected{% endif %}>Набор</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Рассчитать</button>

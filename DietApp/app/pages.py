@@ -51,7 +51,7 @@ def bmr_calculator():
                       'carbs': carbs
                      }
             
-            return render_template('pages/bmr_calculator.html', result=result)
+            return render_template('pages/bmr_calculator.html', user_data=user_data, result=result)
         
         except connector.errors.DatabaseError:
             flash('Произошла ошибка при создании записи. Проверьте, что все необходимые поля заполнены', 'danger')
